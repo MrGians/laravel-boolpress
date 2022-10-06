@@ -30,6 +30,6 @@ class MailNewPost extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.posts.new-post', ['post' => $this->post]);
+        return $this->view('emails.posts.new_post', ['post' => $this->post]);
     }
 }
