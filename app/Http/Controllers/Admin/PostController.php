@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -53,10 +54,9 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
             'title' => 'required|string|min:5|max:100|unique:posts',
-            'thumb' => 'nullable|url',
+            'thumb' => 'nullable|image|mimes:jpeg,jpg,png',
             'content' => 'required|string',
             'category_id' => 'nullable|exists:categories,id',
             'tags' => 'nullable|exists:tags,id'
@@ -65,7 +65,8 @@ class PostController extends Controller
             'title.min' => 'Il Titolo deve contenere almeno :min caratteri',
             'title.max' => 'Il Titolo deve contenere massimo :max caratteri',
             'title.unique' => "Il Titolo \"$request->title\" esiste già",
-            'thumb.url' => "L'immagine deve essere un URL valido",
+            'thumb.image' => "Il file deve essere di un'immagine",
+            'thumb.mimes' => "Il file Immagine deve essere di un'estensione valida (.jpg, .jpeg, .png)",
             'content.required' => 'Il Contenuto è obbligatorio',
             'category_id.exists' => 'La Categoria selezionata non esiste',
             'tags.exists' => 'Uno o più Tag selezionati non sono presenti nella lista'
@@ -75,11 +76,17 @@ class PostController extends Controller
         $data['slug'] = Str::slug($data['title'], '-');
         $data['is_published'] = array_key_exists('is_published', $data);
         $data['user_id'] = Auth::id();
+
+        if(array_key_exists('thumb', $data)){
+            $data['thumb'] = Storage::put('posts_img', $data['thumb']);
+        }
+
         $post = new Post();
         $post->fill($data);
         $post->save();
 
         if(array_key_exists('tags', $data)) $post->tags()->attach($data['tags']);
+
 
         return redirect()->route('admin.posts.show', compact('post'))
         ->with('message', 'Il Post è stato creato correttamente')->with('type', 'success');
@@ -121,7 +128,7 @@ class PostController extends Controller
     {
         $request->validate([
             'title' => ['required','string','min:5','max:100', Rule::unique('posts')->ignore($post->id)],
-            'thumb' => 'nullable|url',
+            'thumb' => 'nullable|image|mimes:jpeg,jpg,png',
             'content' => 'required|string',
             'category_id' => 'nullable|exists:categories,id',
             'tags' => 'nullable|exists:tags,id'
@@ -130,7 +137,8 @@ class PostController extends Controller
             'title.min' => 'Il Titolo deve contenere almeno :min caratteri',
             'title.max' => 'Il Titolo deve contenere massimo :max caratteri',
             'title.unique' => "Il Titolo \"$request->title\" esiste già",
-            'thumb.url' => "L'immagine deve essere un URL valido",
+            'thumb.image' => "Il file deve essere di un'immagine",
+            'thumb.mimes' => "Il file Immagine deve essere di un'estensione valida (.jpg, .jpeg, .png)",
             'content.required' => 'Il Contenuto è obbligatorio',
             'category_id.exists' => 'La Categoria selezionata non esiste',
             'tags.exists' => 'Uno o più Tag selezionati non sono presenti nella lista'
@@ -139,7 +147,14 @@ class PostController extends Controller
         $data = $request->all();
         $data['slug'] = Str::slug($data['title'], '-');
         $data['is_published'] = array_key_exists('is_published', $data);
+
         if(isset($data['switch_author'])) $data['user_id'] = Auth::id();
+
+        if(array_key_exists('thumb', $data)){
+            if($post->thumb) Storage::delete($post->thumb);
+            $data['thumb'] = Storage::put('posts_img', $data['thumb']);
+        }
+
         $post->update($data);
 
         if(!array_key_exists('tags', $data)) $post->tags()->detach();

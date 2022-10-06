@@ -1,10 +1,10 @@
 @include('includes.admin.errors')
 
 @if ($post->exists)
-<form action="{{ route('admin.posts.update', $post) }}" method="POST" novalidate>
+<form action="{{ route('admin.posts.update', $post) }}" method="POST" enctype="multipart/form-data" novalidate>
 @method('PUT')
 @else
-<form action="{{ route('admin.posts.store') }}" method="POST" novalidate>
+<form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data" novalidate>
 @endif
 
   @csrf
@@ -30,14 +30,14 @@
     </div>
     {{-- Thumbnail --}}
     <div class="col-10 d-flex align-items-center">
-      <div class="form-group w-100">
+      <div class="d-flex flex-column w-100">
         <label for="thumb">Immagine</label>
-        <input type="url" class="form-control @error('thumb') is-invalid @enderror" id="thumb" name="thumb" value="{{ old('thumb', $post->thumb) }}">
+        <input type="file" class="@error('thumb') is-invalid @enderror" id="thumb" name="thumb">
       </div>
     </div>
     {{-- Thumb Preview --}}
     <div class="col-2">
-      <img class="img-fluid" src="https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc=" alt="Post Preview" id="thumb-preview">
+      <img class="img-fluid" src="{{ $post->thumb ? asset('storage/'.$post->thumb) : asset('storage/posts_img/placeholder.png') }}" alt="{{ $post->thumb ? $post->slug : 'Placeholder' }}" id="thumb-preview">
     </div>
     {{-- Content --}}
     <div class="col-12">

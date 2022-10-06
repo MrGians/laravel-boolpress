@@ -6,7 +6,11 @@
   <div class="card mb-3">
     <div class="row no-gutters">
       <div class="col-md-4">
-        <img class="img-fluid" src="{{ $post->thumb ?? 'https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc=' }}" alt="{{ $post->title }}">
+        @if($post->thumb)
+        <img class="img-fluid" src="{{ asset('storage/'.$post->thumb) }}" alt="{{ $post->title }}">
+        @else
+        <img class="img-fluid" src="{{ asset('storage/posts_img/placeholder.png') }}" alt="Placeholder">
+        @endif
       </div>
       <div class="col-md-8">
         <div class="card-body">
