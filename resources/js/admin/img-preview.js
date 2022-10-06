@@ -1,8 +1,11 @@
-const thumbPreview = document.getElementById("thumb-preview");
+const placeholder = "http://127.0.0.1:8000/storage/posts_img/placeholder.png";
 const thumbInput = document.getElementById("thumb");
-const placeholder =
-    "https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc=";
+const thumbPreview = document.getElementById("thumb-preview");
 
 thumbInput.addEventListener("input", () => {
-    thumbPreview.src = thumbInput.value || placeholder;
+    if (thumbInput.files && thumbInput.files[0]) {
+        let fileReader = new FileReader();
+        fileReader.readAsDataURL(thumbInput.files[0]);
+        fileReader.onload = (e) => (thumbPreview.src = e.target.result);
+    } else thumbPreview.src = placeholder;
 });

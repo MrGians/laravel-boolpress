@@ -37333,11 +37333,18 @@ formsToDelete.forEach(function (form) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-var thumbPreview = document.getElementById("thumb-preview");
+var placeholder = "http://127.0.0.1:8000/storage/posts_img/placeholder.png";
 var thumbInput = document.getElementById("thumb");
-var placeholder = "https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc=";
+var thumbPreview = document.getElementById("thumb-preview");
 thumbInput.addEventListener("input", function () {
-  thumbPreview.src = thumbInput.value || placeholder;
+  if (thumbInput.files && thumbInput.files[0]) {
+    var fileReader = new FileReader();
+    fileReader.readAsDataURL(thumbInput.files[0]);
+
+    fileReader.onload = function (e) {
+      return thumbPreview.src = e.target.result;
+    };
+  } else thumbPreview.src = placeholder;
 });
 
 /***/ }),
