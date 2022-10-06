@@ -12,6 +12,8 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Mail\MailNewPost;
+use Illuminate\Support\Facades\Mail;
 
 class PostController extends Controller
 {
@@ -87,6 +89,12 @@ class PostController extends Controller
 
         if(array_key_exists('tags', $data)) $post->tags()->attach($data['tags']);
 
+        // Send Mail to new Published Post
+        if($post->is_published){
+            $mail = new MailNewPost($post);
+            $user = Auth::user()->email;
+            Mail::to($user)->send($mail);
+        }
 
         return redirect()->route('admin.posts.show', compact('post'))
         ->with('message', 'Il Post è stato creato correttamente')->with('type', 'success');
