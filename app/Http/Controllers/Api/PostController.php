@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use App\Http\Resources\Api\PostResource;
 
 class PostController extends Controller
 {
@@ -16,7 +17,8 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::where('is_published', 1)->orderBy('updated_at', 'DESC')->with('category', 'tags', 'author')->paginate(10);
-        return response()->json($posts);
+        return PostResource::collection($posts)->response()->getData(true);
+        // return response()->json($posts);
     }
 
     /**

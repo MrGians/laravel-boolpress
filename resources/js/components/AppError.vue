@@ -1,7 +1,11 @@
 <template>
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>{{ error }}</strong>
-        <button @click="error = null" type="button" class="close">
+    <div
+        class="`alert fade show"
+        :class="[`alert-${type}`, { 'alert-dismissible': dismissible }]"
+        role="alert"
+    >
+        <slot></slot>
+        <button @click="$emit('close')" type="button" class="close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -11,9 +15,13 @@
 export default {
     name: "AppError",
     props: {
-        error: {
+        dismissible: {
+            type: Boolean,
+            default: false,
+        },
+        type: {
             type: String,
-            default: "Error",
+            default: "info",
         },
     },
 };

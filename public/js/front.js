@@ -1939,9 +1939,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "AppError",
   props: {
-    error: {
+    dismissible: {
+      type: Boolean,
+      "default": false
+    },
+    type: {
       type: String,
-      "default": "Error"
+      "default": "info"
     }
   }
 });
@@ -2217,13 +2221,10 @@ __webpack_require__.r(__webpack_exports__);
       this.isLoading = true;
       var endpoint = this.api.endpoint;
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("".concat(endpoint, "?page=").concat(page)).then(function (res) {
-        var _res$data = res.data,
-            current_page = _res$data.current_page,
-            last_page = _res$data.last_page,
-            data = _res$data.data;
-        _this.postsList = data;
-        _this.pagination.current = current_page;
-        _this.pagination.last = last_page;
+        var result = res.data;
+        _this.postsList = result.data;
+        _this.pagination.current = result.meta.current_page;
+        _this.pagination.last = result.meta.last_page;
       })["catch"](function (err) {
         _this.error = "Fetch Posts Error";
       }).then(function () {
@@ -2287,25 +2288,28 @@ var render = function render() {
       _c = _vm._self._c;
 
   return _c("div", {
-    staticClass: "alert alert-danger alert-dismissible fade show",
+    staticClass: "`alert fade show",
+    "class": ["alert-".concat(_vm.type), {
+      "alert-dismissible": _vm.dismissible
+    }],
     attrs: {
       role: "alert"
     }
-  }, [_c("strong", [_vm._v(_vm._s(_vm.error))]), _vm._v(" "), _c("button", {
+  }, [_vm._t("default"), _vm._v(" "), _c("button", {
     staticClass: "close",
     attrs: {
       type: "button"
     },
     on: {
       click: function click($event) {
-        _vm.error = null;
+        return _vm.$emit("close");
       }
     }
   }, [_c("span", {
     attrs: {
       "aria-hidden": "true"
     }
-  }, [_vm._v("×")])])]);
+  }, [_vm._v("×")])])], 2);
 };
 
 var staticRenderFns = [];
@@ -2679,7 +2683,7 @@ var render = function render() {
   }, [_c("img", {
     staticClass: "card-img-top",
     attrs: {
-      src: "/storage/".concat(_vm.post.thumb),
+      src: _vm.post.thumb,
       alt: _vm.post.title
     }
   }), _vm._v(" "), _c("div", {
@@ -2755,7 +2759,8 @@ var render = function render() {
     staticClass: "text-center my-4"
   }, [_vm._v("Lista dei Post")]), _vm._v(" "), _vm.isLoading ? _c("AppLoader") : _vm.error ? _c("div", [_c("AppError", {
     attrs: {
-      error: _vm.error
+      type: "danger",
+      dismissible: true
     }
   })], 1) : _c("div", [_vm.postsList && _vm.postsList.length ? _c("div", [_c("div", {
     staticClass: "row"

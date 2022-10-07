@@ -3,7 +3,7 @@
         <h2 class="text-center my-4">Lista dei Post</h2>
         <AppLoader v-if="isLoading" />
         <div v-else-if="error">
-            <AppError :error="error" />
+            <AppError type="danger" :dismissible="true" />
         </div>
         <div v-else>
             <div v-if="postsList && postsList.length">
@@ -51,10 +51,11 @@ export default {
             axios
                 .get(`${endpoint}?page=${page}`)
                 .then((res) => {
-                    const { current_page, last_page, data } = res.data;
-                    this.postsList = data;
-                    this.pagination.current = current_page;
-                    this.pagination.last = last_page;
+                    const result = res.data;
+
+                    this.postsList = result.data;
+                    this.pagination.current = result.meta.current_page;
+                    this.pagination.last = result.meta.last_page;
                 })
                 .catch((err) => {
                     this.error = "Fetch Posts Error";
