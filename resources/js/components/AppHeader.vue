@@ -33,6 +33,7 @@ export default {
                 { route_name: "home", page_name: "Home" },
                 { route_name: "posts", page_name: "Posts" },
                 { route_name: "about", page_name: "About" },
+                { route_name: "contact_us", page_name: "Contact Us" },
             ],
         };
     },

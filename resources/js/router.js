@@ -8,6 +8,7 @@ import HomePage from "./components/pages/HomePage";
 import PostsPage from "./components/pages/PostsPage";
 import PostDetailPage from "./components/pages/PostDetailPage";
 import AboutPage from "./components/pages/AboutPage";
+import ContactUsPage from "./components/pages/ContactUsPage";
 import NotFoundPage from "./components/pages/NotFoundPage";
 
 const routes = new VueRouter({
@@ -23,6 +24,7 @@ const routes = new VueRouter({
             name: "post-detail",
         },
         { path: "/about", component: AboutPage, name: "about" },
+        { path: "/contact-us", component: ContactUsPage, name: "contact_us" },
         { path: "*", component: NotFoundPage, name: "not-found" },
     ],
 });

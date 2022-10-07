@@ -1909,14 +1909,11 @@ module.exports = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AppHeader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AppHeader */ "./resources/js/components/AppHeader.vue");
-/* harmony import */ var _pages_PostsPage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pages/PostsPage */ "./resources/js/components/pages/PostsPage.vue");
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "App",
   components: {
-    AppHeader: _AppHeader__WEBPACK_IMPORTED_MODULE_0__["default"],
-    PostsPage: _pages_PostsPage__WEBPACK_IMPORTED_MODULE_1__["default"]
+    AppHeader: _AppHeader__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   data: function data() {
     return {
@@ -1974,6 +1971,9 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         route_name: "about",
         page_name: "About"
+      }, {
+        route_name: "contact_us",
+        page_name: "Contact Us"
       }]
     };
   },
@@ -2033,6 +2033,21 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "About Page"
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/pages/ContactUsPage.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/pages/ContactUsPage.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "ContactUs"
 });
 
 /***/ }),
@@ -2210,7 +2225,7 @@ __webpack_require__.r(__webpack_exports__);
         current: null
       },
       isLoading: false,
-      error: null
+      errors: {}
     };
   },
   methods: {
@@ -2226,7 +2241,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.pagination.current = result.meta.current_page;
         _this.pagination.last = result.meta.last_page;
       })["catch"](function (err) {
-        _this.error = "Fetch Posts Error";
+        _this.errors.http = err;
       }).then(function () {
         _this.isLoading = false;
         console.log("Chiamata terminata");
@@ -2520,6 +2535,41 @@ var staticRenderFns = [function () {
   }, [_c("h2", {
     staticClass: "text-center my-4"
   }, [_vm._v("About page")])]);
+}];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/pages/ContactUsPage.vue?vue&type=template&id=cf49bf32&":
+/*!****************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/pages/ContactUsPage.vue?vue&type=template&id=cf49bf32& ***!
+  \****************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function render() {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _vm._m(0);
+};
+
+var staticRenderFns = [function () {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("div", {
+    attrs: {
+      id: "contact-page"
+    }
+  }, [_c("h2", {
+    staticClass: "text-center my-4"
+  }, [_vm._v("Contact Us")])]);
 }];
 render._withStripped = true;
 
@@ -54818,6 +54868,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/pages/ContactUsPage.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/pages/ContactUsPage.vue ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ContactUsPage_vue_vue_type_template_id_cf49bf32___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ContactUsPage.vue?vue&type=template&id=cf49bf32& */ "./resources/js/components/pages/ContactUsPage.vue?vue&type=template&id=cf49bf32&");
+/* harmony import */ var _ContactUsPage_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ContactUsPage.vue?vue&type=script&lang=js& */ "./resources/js/components/pages/ContactUsPage.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ContactUsPage_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ContactUsPage_vue_vue_type_template_id_cf49bf32___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ContactUsPage_vue_vue_type_template_id_cf49bf32___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/pages/ContactUsPage.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/pages/ContactUsPage.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/pages/ContactUsPage.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ContactUsPage_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ContactUsPage.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/pages/ContactUsPage.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ContactUsPage_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/pages/ContactUsPage.vue?vue&type=template&id=cf49bf32&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/pages/ContactUsPage.vue?vue&type=template&id=cf49bf32& ***!
+  \****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_ContactUsPage_vue_vue_type_template_id_cf49bf32___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!../../../../node_modules/vue-loader/lib??vue-loader-options!./ContactUsPage.vue?vue&type=template&id=cf49bf32& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/pages/ContactUsPage.vue?vue&type=template&id=cf49bf32&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_ContactUsPage_vue_vue_type_template_id_cf49bf32___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_ContactUsPage_vue_vue_type_template_id_cf49bf32___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/pages/HomePage.vue":
 /*!****************************************************!*\
   !*** ./resources/js/components/pages/HomePage.vue ***!
@@ -55315,11 +55434,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_pages_PostsPage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/pages/PostsPage */ "./resources/js/components/pages/PostsPage.vue");
 /* harmony import */ var _components_pages_PostDetailPage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/pages/PostDetailPage */ "./resources/js/components/pages/PostDetailPage.vue");
 /* harmony import */ var _components_pages_AboutPage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/pages/AboutPage */ "./resources/js/components/pages/AboutPage.vue");
-/* harmony import */ var _components_pages_NotFoundPage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/pages/NotFoundPage */ "./resources/js/components/pages/NotFoundPage.vue");
+/* harmony import */ var _components_pages_ContactUsPage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/pages/ContactUsPage */ "./resources/js/components/pages/ContactUsPage.vue");
+/* harmony import */ var _components_pages_NotFoundPage__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/pages/NotFoundPage */ "./resources/js/components/pages/NotFoundPage.vue");
 // import Vue Router
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
+
 
 
 
@@ -55346,8 +55467,12 @@ var routes = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     component: _components_pages_AboutPage__WEBPACK_IMPORTED_MODULE_5__["default"],
     name: "about"
   }, {
+    path: "/contact-us",
+    component: _components_pages_ContactUsPage__WEBPACK_IMPORTED_MODULE_6__["default"],
+    name: "contact_us"
+  }, {
     path: "*",
-    component: _components_pages_NotFoundPage__WEBPACK_IMPORTED_MODULE_6__["default"],
+    component: _components_pages_NotFoundPage__WEBPACK_IMPORTED_MODULE_7__["default"],
     name: "not-found"
   }]
 });
