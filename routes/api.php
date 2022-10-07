@@ -18,4 +18,5 @@ Route::namespace('Api')->group(function (){
   // Resource Posts
   Route::get('/posts', 'PostController@index');
   Route::get('/posts/{slug}', 'PostController@show');
+  Route::post('/contact_us', 'ContactUsController@send');
 });
