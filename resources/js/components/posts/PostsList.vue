@@ -52,7 +52,7 @@ export default {
                 .get(`${endpoint}?page=${page}`)
                 .then((res) => {
                     const result = res.data;
-
+                    console.log(res.data);
                     this.postsList = result.data;
                     this.pagination.current = result.meta.current_page;
                     this.pagination.last = result.meta.last_page;

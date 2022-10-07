@@ -2222,6 +2222,7 @@ __webpack_require__.r(__webpack_exports__);
       var endpoint = this.api.endpoint;
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("".concat(endpoint, "?page=").concat(page)).then(function (res) {
         var result = res.data;
+        console.log(res.data);
         _this.postsList = result.data;
         _this.pagination.current = result.meta.current_page;
         _this.pagination.last = result.meta.last_page;
