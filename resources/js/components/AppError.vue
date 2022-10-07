@@ -26,3 +26,18 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+div.alert-dismissible {
+    position: relative;
+    padding: 0.5rem 1rem;
+}
+button.close {
+    padding: 0;
+    height: 100%;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+</style>

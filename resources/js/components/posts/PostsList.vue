@@ -2,9 +2,14 @@
     <section id="post-list">
         <h2 class="text-center my-4">Lista dei Post</h2>
         <AppLoader v-if="isLoading" />
-        <div v-else-if="error">
-            <AppError type="danger" :dismissible="true" />
-        </div>
+        <AppError
+            v-else-if="error"
+            type="danger"
+            :dismissible="true"
+            @close="error = null"
+        >
+            <slot>{{ error }}</slot>
+        </AppError>
         <div v-else>
             <div v-if="postsList && postsList.length">
                 <div class="row">
@@ -52,7 +57,6 @@ export default {
                 .get(`${endpoint}?page=${page}`)
                 .then((res) => {
                     const result = res.data;
-                    console.log(res.data);
                     this.postsList = result.data;
                     this.pagination.current = result.meta.current_page;
                     this.pagination.last = result.meta.last_page;
