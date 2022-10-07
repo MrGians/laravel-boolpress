@@ -2679,7 +2679,7 @@ var render = function render() {
   }, [_c("img", {
     staticClass: "card-img-top",
     attrs: {
-      src: _vm.post.thumb,
+      src: "/storage/".concat(_vm.post.thumb),
       alt: _vm.post.title
     }
   }), _vm._v(" "), _c("div", {

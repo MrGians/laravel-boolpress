@@ -56,6 +56,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'title' => 'required|string|min:5|max:100|unique:posts',
             'thumb' => 'nullable|image|mimes:jpeg,jpg,png',
@@ -81,7 +82,7 @@ class PostController extends Controller
 
         if(array_key_exists('thumb', $data)){
             $data['thumb'] = Storage::put('posts_img', $data['thumb']);
-        }
+        } else $data['thumb'] = 'posts_img/placeholder.png';
 
         $post = new Post();
         $post->fill($data);

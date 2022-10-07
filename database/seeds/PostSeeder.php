@@ -25,6 +25,7 @@ class PostSeeder extends Seeder
         for($i = 1; $i <= 20; $i++){
             $new_post = new Post();
             $new_post->title = $faker->sentence();
+            $new_post->thumb = 'posts_img/placeholder.png';
             $new_post->user_id = Arr::random($user_id_list);
             $new_post->category_id = Arr::random($category_id_list);
             $new_post->slug = Str::slug($new_post->title, '-');
