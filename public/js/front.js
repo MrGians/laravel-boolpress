@@ -2046,8 +2046,52 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _AppLoader_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../AppLoader.vue */ "./resources/js/components/AppLoader.vue");
+/* harmony import */ var _AppError_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../AppError.vue */ "./resources/js/components/AppError.vue");
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "ContactUs"
+  name: "ContactUs",
+  components: {
+    AppError: _AppError_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    AppLoader: _AppLoader_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {
+      form: {
+        email: "",
+        message: ""
+      },
+      errors: {},
+      alertMessage: null,
+      isLoading: false
+    };
+  },
+  computed: {
+    hasError: function hasError() {
+      return true;
+    }
+  },
+  methods: {
+    sendEmail: function sendEmail() {
+      var _this = this;
+
+      this.isLoading = true;
+      axios.post("http://localhost:8000/api/contact_us", this.form).then(function (res) {
+        _this.form.email = "";
+        _this.form.message = "";
+        _this.alertMessage = "Messaggio Inviato con successo!";
+      })["catch"](function (err) {
+        var _err$errors = err.errors,
+            email = _err$errors.email,
+            message = _err$errors.message;
+        if (email) _this.errors.email = email;
+        if (message) _this.errors.message = message;
+      }).then(function () {
+        _this.isLoading = false;
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -2225,7 +2269,7 @@ __webpack_require__.r(__webpack_exports__);
         current: null
       },
       isLoading: false,
-      errors: {}
+      error: null
     };
   },
   methods: {
@@ -2241,7 +2285,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.pagination.current = result.meta.current_page;
         _this.pagination.last = result.meta.last_page;
       })["catch"](function (err) {
-        _this.errors.http = err;
+        _this.error = "Fetch Posts Error";
       }).then(function () {
         _this.isLoading = false;
         console.log("Chiamata terminata");
@@ -2556,21 +2600,110 @@ var render = function render() {
   var _vm = this,
       _c = _vm._self._c;
 
-  return _vm._m(0);
-};
-
-var staticRenderFns = [function () {
-  var _vm = this,
-      _c = _vm._self._c;
-
   return _c("div", {
     attrs: {
       id: "contact-page"
     }
   }, [_c("h2", {
     staticClass: "text-center my-4"
-  }, [_vm._v("Contact Us")])]);
-}];
+  }, [_vm._v("Contact Us")]), _vm._v(" "), _vm.isLoading ? _c("AppLoader") : _c("div", [_vm.alertMessage ? _c("AppError", {
+    attrs: {
+      type: _vm.hasError ? "danger" : "success",
+      dismissible: "true"
+    },
+    on: {
+      close: function close($event) {
+        _vm.errors = {};
+      }
+    }
+  }) : _vm._e(), _vm._v(" "), _c("form", {
+    attrs: {
+      novalidate: ""
+    },
+    on: {
+      submit: function submit($event) {
+        $event.preventDefault();
+        return _vm.sendEmail.apply(null, arguments);
+      }
+    }
+  }, [_c("div", {
+    staticClass: "form-group"
+  }, [_c("label", {
+    attrs: {
+      "for": "email"
+    }
+  }, [_vm._v("La tua Email")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model.trim",
+      value: _vm.form.email,
+      expression: "form.email",
+      modifiers: {
+        trim: true
+      }
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "email",
+      id: "email",
+      required: ""
+    },
+    domProps: {
+      value: _vm.form.email
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+
+        _vm.$set(_vm.form, "email", $event.target.value.trim());
+      },
+      blur: function blur($event) {
+        return _vm.$forceUpdate();
+      }
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "form-group"
+  }, [_c("label", {
+    attrs: {
+      "for": "message"
+    }
+  }, [_vm._v("Il tuo Messaggio")]), _vm._v(" "), _c("textarea", {
+    directives: [{
+      name: "model",
+      rawName: "v-model.trim",
+      value: _vm.form.message,
+      expression: "form.message",
+      modifiers: {
+        trim: true
+      }
+    }],
+    staticClass: "form-control",
+    attrs: {
+      id: "message",
+      rows: "10"
+    },
+    domProps: {
+      value: _vm.form.message
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+
+        _vm.$set(_vm.form, "message", $event.target.value.trim());
+      },
+      blur: function blur($event) {
+        return _vm.$forceUpdate();
+      }
+    }
+  })]), _vm._v(" "), _c("button", {
+    staticClass: "btn btn-success",
+    attrs: {
+      type: "submit"
+    }
+  }, [_vm._v("Invia")])])], 1)], 1);
+};
+
+var staticRenderFns = [];
 render._withStripped = true;
 
 

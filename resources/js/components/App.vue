@@ -9,10 +9,9 @@
 
 <script>
 import AppHeader from "./AppHeader";
-import PostsPage from "./pages/PostsPage";
 export default {
     name: "App",
-    components: { AppHeader, PostsPage },
+    components: { AppHeader },
     data() {
         return {
             title: "Boolpress",
