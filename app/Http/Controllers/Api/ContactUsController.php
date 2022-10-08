@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ContactUsMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -27,7 +28,9 @@ class ContactUsController extends Controller
             return response()->json(['errors' => $validation->errors()]);
         }
 
-        // Mail::to(env('MAIL_CONTACT_US'))->cc('sono io')->send($data['message']);
+        $email = new ContactUsMail($data['email'], $data['message']);
+        Mail::to(env('MAIL_CONTACT_US'))->send($email);
+        
         return response('', 204);
     }
 }
