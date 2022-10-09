@@ -1,7 +1,14 @@
 <template>
     <div id="post-detail-page">
         <AppLoader v-if="isLoading" />
-        <AppError v-if="error" />
+        <AppAlert
+            v-else-if="error"
+            type="danger"
+            :dismissible="true"
+            @close="error = null"
+        >
+            <p>{{ error }}</p>
+        </AppAlert>
         <h2 class="text-center my-4">Dettaglio Post</h2>
         <div class="row justify-content-center">
             <div class="col-9">
@@ -14,10 +21,11 @@
 <script>
 import PostCard from "../posts/PostCard";
 import AppLoader from "../AppLoader";
-import AppError from "../AppError";
+import AppAlert from "../AppAlert";
+import { type } from "os";
 export default {
     name: "PostDetailPage",
-    components: { PostCard, AppLoader, AppError },
+    components: { PostCard, AppLoader, AppAlert },
     data() {
         return {
             post: null,

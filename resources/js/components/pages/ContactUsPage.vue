@@ -3,12 +3,13 @@
         <h2 class="text-center my-4">Contact Us</h2>
         <AppLoader v-if="isLoading" />
         <div v-else>
-            <AppError
+            <AppAlert
                 v-if="alertMessage"
                 :type="hasError ? 'danger' : 'success'"
                 dismissible="true"
                 @close="errors = {}"
-            ></AppError>
+            >
+            </AppAlert>
             <form @submit.prevent="sendEmail" novalidate>
                 <!-- Email -->
                 <div class="form-group">
@@ -40,10 +41,10 @@
 
 <script>
 import AppLoader from "./../AppLoader.vue";
-import AppError from "./../AppError.vue";
+import AppAlert from "./../AppAlert.vue";
 export default {
     name: "ContactUs",
-    components: { AppError, AppLoader },
+    components: { AppAlert, AppLoader },
     data() {
         return {
             form: {

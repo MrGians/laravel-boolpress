@@ -2,14 +2,14 @@
     <section id="post-list">
         <h2 class="text-center my-4">Lista dei Post</h2>
         <AppLoader v-if="isLoading" />
-        <AppError
+        <AppAlert
             v-else-if="error"
             type="danger"
             :dismissible="true"
             @close="error = null"
         >
-            <slot>{{ error }}</slot>
-        </AppError>
+            <p>{{ error }}</p>
+        </AppAlert>
         <div v-else>
             <div v-if="postsList && postsList.length">
                 <div class="row">
@@ -27,12 +27,12 @@
 <script>
 import axios from "axios";
 import AppLoader from "./../AppLoader.vue";
-import AppError from "./../AppError.vue";
+import AppAlert from "./../AppAlert.vue";
 import PostCard from "./PostCard.vue";
 import AppPagination from "../AppPagination.vue";
 export default {
     name: "PostPage",
-    components: { AppLoader, PostCard, AppError, AppPagination },
+    components: { AppLoader, PostCard, AppAlert, AppPagination },
     data() {
         return {
             api: {

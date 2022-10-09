@@ -13,7 +13,7 @@
 
 <script>
 export default {
-    name: "AppError",
+    name: "AppAlert",
     props: {
         dismissible: {
             type: Boolean,
