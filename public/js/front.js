@@ -2068,25 +2068,49 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {
-    hasError: function hasError() {
-      return true;
+    hasErrors: function hasErrors() {
+      return Object.keys(this.errors).length;
     }
   },
   methods: {
+    resetAlertAndErrors: function resetAlertAndErrors() {
+      this.errors = {};
+      this.alertMessage = null;
+    },
+    validateForm: function validateForm() {
+      var errors = {};
+      if (!this.form.email) errors.email = "L'email è obbligatoria";
+      if (this.form.email && !this.form.email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) errors.email = "Il campo Email deve contenere un'email valida";
+      if (!this.form.message) errors.message = "Il Messaggio è obbligatorio";
+      this.errors = errors;
+    },
+    sendForm: function sendForm() {
+      this.errors = {};
+      this.validateForm();
+      if (!this.hasErrors) this.sendEmail();
+    },
     sendEmail: function sendEmail() {
       var _this = this;
 
       this.isLoading = true;
       axios.post("http://localhost:8000/api/contact_us", this.form).then(function (res) {
-        _this.form.email = "";
-        _this.form.message = "";
-        _this.alertMessage = "Messaggio Inviato con successo!";
+        if (res.data.errors) {
+          var errors = {};
+          var _res$data$errors = res.data.errors,
+              email = _res$data$errors.email,
+              message = _res$data$errors.message;
+          if (email) errors.email = email[0];
+          if (message) errors.message = message[0];
+          _this.errors = errors;
+        } else {
+          _this.form.email = "";
+          _this.form.message = "";
+          _this.alertMessage = "Messaggio Inviato con successo!";
+        }
       })["catch"](function (err) {
-        var _err$errors = err.errors,
-            email = _err$errors.email,
-            message = _err$errors.message;
-        if (email) _this.errors.email = email;
-        if (message) _this.errors.message = message;
+        _this.errors = {
+          http: "Si è verificato un errore"
+        };
       }).then(function () {
         _this.isLoading = false;
       });
@@ -2609,24 +2633,26 @@ var render = function render() {
     }
   }, [_c("h2", {
     staticClass: "text-center my-4"
-  }, [_vm._v("Contact Us")]), _vm._v(" "), _vm.isLoading ? _c("AppLoader") : _c("div", [_vm.alertMessage ? _c("AppAlert", {
+  }, [_vm._v("Contact Us")]), _vm._v(" "), _vm.isLoading ? _c("AppLoader") : _c("div", [_vm.hasErrors || _vm.alertMessage ? _c("AppAlert", {
     attrs: {
-      type: _vm.hasError ? "danger" : "success",
-      dismissible: "true"
+      type: _vm.hasErrors ? "danger" : "success",
+      dismissible: true
     },
     on: {
-      close: function close($event) {
-        _vm.errors = {};
-      }
+      close: _vm.resetAlertAndErrors
     }
-  }) : _vm._e(), _vm._v(" "), _c("form", {
+  }, [_vm.hasErrors ? _c("ul", _vm._l(_vm.errors, function (error, key) {
+    return _c("li", {
+      key: key
+    }, [_vm._v("\n                    " + _vm._s(error) + "\n                ")]);
+  }), 0) : _vm._e(), _vm._v(" "), _vm.alertMessage ? _c("div", [_vm._v(_vm._s(_vm.alertMessage))]) : _vm._e()]) : _vm._e(), _vm._v(" "), _c("form", {
     attrs: {
       novalidate: ""
     },
     on: {
       submit: function submit($event) {
         $event.preventDefault();
-        return _vm.sendEmail.apply(null, arguments);
+        return _vm.sendForm.apply(null, arguments);
       }
     }
   }, [_c("div", {
@@ -2646,6 +2672,9 @@ var render = function render() {
       }
     }],
     staticClass: "form-control",
+    "class": {
+      "is-invalid": _vm.errors.email
+    },
     attrs: {
       type: "email",
       id: "email",
@@ -2664,7 +2693,9 @@ var render = function render() {
         return _vm.$forceUpdate();
       }
     }
-  })]), _vm._v(" "), _c("div", {
+  }), _vm._v(" "), _vm.errors.email ? _c("div", {
+    staticClass: "invalid-feedback"
+  }, [_vm._v("\n                    " + _vm._s(_vm.errors.email) + "\n                ")]) : _vm._e()]), _vm._v(" "), _c("div", {
     staticClass: "form-group"
   }, [_c("label", {
     attrs: {
@@ -2681,6 +2712,9 @@ var render = function render() {
       }
     }],
     staticClass: "form-control",
+    "class": {
+      "is-invalid": _vm.errors.message
+    },
     attrs: {
       id: "message",
       rows: "10"
@@ -2698,7 +2732,9 @@ var render = function render() {
         return _vm.$forceUpdate();
       }
     }
-  })]), _vm._v(" "), _c("button", {
+  }), _vm._v(" "), _vm.errors.message ? _c("div", {
+    staticClass: "invalid-feedback"
+  }, [_vm._v("\n                    " + _vm._s(_vm.errors.message) + "\n                ")]) : _vm._e()]), _vm._v(" "), _c("button", {
     staticClass: "btn btn-success",
     attrs: {
       type: "submit"

@@ -4,33 +4,47 @@
         <AppLoader v-if="isLoading" />
         <div v-else>
             <AppAlert
-                v-if="alertMessage"
-                :type="hasError ? 'danger' : 'success'"
-                dismissible="true"
-                @close="errors = {}"
+                v-if="hasErrors || alertMessage"
+                :type="hasErrors ? 'danger' : 'success'"
+                :dismissible="true"
+                @close="resetAlertAndErrors"
             >
+                <ul v-if="hasErrors">
+                    <li v-for="(error, key) in errors" :key="key">
+                        {{ error }}
+                    </li>
+                </ul>
+                <div v-if="alertMessage">{{ alertMessage }}</div>
             </AppAlert>
-            <form @submit.prevent="sendEmail" novalidate>
+            <form @submit.prevent="sendForm" novalidate>
                 <!-- Email -->
                 <div class="form-group">
                     <label for="email">La tua Email</label>
                     <input
                         type="email"
                         class="form-control"
+                        :class="{ 'is-invalid': errors.email }"
                         id="email"
                         v-model.trim="form.email"
                         required
                     />
+                    <div v-if="errors.email" class="invalid-feedback">
+                        {{ errors.email }}
+                    </div>
                 </div>
                 <!-- Textarea -->
                 <div class="form-group">
                     <label for="message">Il tuo Messaggio</label>
                     <textarea
                         class="form-control"
+                        :class="{ 'is-invalid': errors.message }"
                         id="message"
                         rows="10"
                         v-model.trim="form.message"
                     ></textarea>
+                    <div v-if="errors.message" class="invalid-feedback">
+                        {{ errors.message }}
+                    </div>
                 </div>
                 <!-- Action -->
                 <button class="btn btn-success" type="submit">Invia</button>
@@ -57,25 +71,60 @@ export default {
         };
     },
     computed: {
-        hasError() {
-            return true;
+        hasErrors() {
+            return Object.keys(this.errors).length;
         },
     },
     methods: {
+        resetAlertAndErrors() {
+            this.errors = {};
+            this.alertMessage = null;
+        },
+        validateForm() {
+            const errors = {};
+
+            if (!this.form.email) errors.email = "L'email è obbligatoria";
+            if (
+                this.form.email &&
+                !this.form.email.match(
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                )
+            )
+                errors.email = "Il campo Email deve contenere un'email valida";
+            if (!this.form.message)
+                errors.message = "Il Messaggio è obbligatorio";
+
+            this.errors = errors;
+        },
+        sendForm() {
+            this.errors = {};
+
+            this.validateForm();
+
+            if (!this.hasErrors) this.sendEmail();
+        },
         sendEmail() {
             this.isLoading = true;
 
             axios
                 .post("http://localhost:8000/api/contact_us", this.form)
                 .then((res) => {
-                    this.form.email = "";
-                    this.form.message = "";
-                    this.alertMessage = "Messaggio Inviato con successo!";
+                    if (res.data.errors) {
+                        const errors = {};
+
+                        const { email, message } = res.data.errors;
+                        if (email) errors.email = email[0];
+                        if (message) errors.message = message[0];
+
+                        this.errors = errors;
+                    } else {
+                        this.form.email = "";
+                        this.form.message = "";
+                        this.alertMessage = "Messaggio Inviato con successo!";
+                    }
                 })
                 .catch((err) => {
-                    const { email, message } = err.errors;
-                    if (email) this.errors.email = email;
-                    if (message) this.errors.message = message;
+                    this.errors = { http: "Si è verificato un errore" };
                 })
                 .then(() => {
                     this.isLoading = false;
